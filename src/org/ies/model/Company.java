@@ -3,6 +3,7 @@ package org.ies.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.ies.exception.DepartmentNotFoundException;
+import org.ies.exception.EmployeeNoFoundException;
 
 import java.util.List;
 
@@ -19,13 +20,27 @@ public class Company {
                 return department1.getEmployees();
             }
         }
-        throw new DepartmentNotFoundException(department);
+        throw new DepartmentNotFoundException();
     }
 
     public Department getDepartmentByName(String name) throws DepartmentNotFoundException{
-        if (var department1 : departments){
-
+        for (var department1 : departments){
+            if(department1.getName().equals(name)){
+                return department1;
+            }
         }
+        throw new DepartmentNotFoundException();
+    }
+
+    public Employee getEmployeeByNif(String nif) throws EmployeeNoFoundException{
+        for (var department: departments){
+            for (var employee : department.getEmployees()){
+                if(employee.getNif().equals(nif)){
+                    return employee;
+                }
+            }
+        }
+        throw new EmployeeNoFoundException();
     }
 
 }
